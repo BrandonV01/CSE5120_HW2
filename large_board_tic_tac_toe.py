@@ -135,18 +135,20 @@ class RandomBoardTicTacToe:
 		THE RETURN VALUES FROM YOUR MINIMAX/NEGAMAX ALGORITHM SHOULD BE THE SCORE, MOVE WHERE SCORE IS AN INTEGER
 		NUMBER AND MOVE IS AN X,Y LOCATION RETURNED BY THE AGENT
 		"""
-		value = float('-inf')
-		for move in self.game_state.get_moves():
-			# Simulate Move
-			self.game_state.board_state[move[1]][move[0]] = 1
+		# value = float('-inf')
+		# for move in self.game_state.get_moves():
+		# 	# Simulate Move
+		# 	self.game_state.board_state[move[1]][move[0]] = 1
 
-			v2, a2 = minimax(self.game_state, 100, False)
-			if v2 > value:
-				value = v2
-				best_move = move
+		# 	v2, a2 = minimax(self.game_state, 10, False)
+		# 	if v2 > value:
+		# 		value = v2
+		# 		best_move = move
 
-			# Undo simulated move
-			self.game_state.board_state[move[1]][move[0]] = 0
+		# 	# Undo simulated move
+		# 	self.game_state.board_state[move[1]][move[0]] = 0
+
+		value, best_move = minimax(self.game_state, 10, True)
 
 		self.draw_circle(best_move[0], best_move[1])
 		self.move(best_move)
