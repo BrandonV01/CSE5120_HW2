@@ -206,44 +206,47 @@ class RandomBoardTicTacToe:
 					if self.OFFSET < mouse_pos[0] <= self.size[1] - self.OFFSET and self.OFFSET < mouse_pos[1] <= self.size[0] - self.OFFSET:
 						grid_x = int((mouse_pos[0] - self.OFFSET) // self.WIDTH)
 						grid_y = int((mouse_pos[1] - self.OFFSET) // self.HEIGHT)
-					
-					coordinates = [grid_x, grid_y]
+						coordinates = [grid_x, grid_y]
 
-					# Checks if the grid is empty and if so fills it in with appropriate symbol and makes the move
-					if self.game_state.board_state[grid_y][grid_x] == 0:
-						if mode == "player_vs_player":
-							if self.game_state.turn_O == True:
-								self.draw_circle(grid_x, grid_y)
-							else:
+						# Checks if the grid is empty and if so fills it in with appropriate symbol and makes the move
+						if self.game_state.board_state[grid_y][grid_x] == 0:
+							if mode == "player_vs_player":
+								if self.game_state.turn_O == True:
+									self.draw_circle(grid_x, grid_y)
+								else:
+									self.draw_cross(grid_x, grid_y)
+								
+								self.move(coordinates)
+
+								if self.GRID_SIZE == 3:
+									done = self.is_game_over_standard()
+								else:
+									done = self.is_game_over_big_board()
+								
+								self.change_turn()
+
+							elif mode == "player_vs_ai":
+
 								self.draw_cross(grid_x, grid_y)
-							
-							self.move(coordinates)
+								self.move(coordinates)
 
-							if self.GRID_SIZE == 3:
-								done = self.is_game_over_standard()
-							else:
-								done = self.is_game_over_big_board()
-							
-							self.change_turn()
+								self.change_turn()
 
-						elif mode == "player_vs_ai":
+								if self.GRID_SIZE == 3:
+									done = self.is_game_over_standard()
+								else:
+									done = self.is_game_over_big_board()
+								
+								
+								pygame.display.update()
+								
+								if not done:
+									self.play_ai()
 
-							self.draw_cross(grid_x, grid_y)
-							self.move(coordinates)
-
-							if self.GRID_SIZE == 3:
-								done = self.is_game_over_standard()
-							else:
-								done = self.is_game_over_big_board()
-
-							self.change_turn()
-
-							self.play_ai()
-
-							if self.GRID_SIZE == 3:
-								done = self.is_game_over_standard()
-							else:
-								done = self.is_game_over_big_board()
+									if self.GRID_SIZE == 3:
+										done = self.is_game_over_standard()
+									else:
+										done = self.is_game_over_big_board()
 
 					for x in self.game_state.board_state:
 						print(x)
