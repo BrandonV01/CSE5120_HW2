@@ -70,27 +70,27 @@ def negamax(game_status: GameStatus, depth: int, turn_multiplier: int, alpha=flo
 		scores = game_status.get_negamax_scores(terminal)
 		return turn_multiplier * scores, None
 		
-		value = float("-inf")
-		best_move = None
-		
-		for move in game_status.get_moves():
-			#stimulate move
-			game_status.board_state[move[1]][move[0]] = turn_multiplier
-			#recursive call 
-			v2, a2 = negmax(game_status, depth -1, -turn_multiplier, -beta, -alpha)
-			#flip returned value
-			v2 = -v2
-			if v2 > value:
-				value = v2 
-				best_move = move
-			#undo simulated move
-			game_status.board_state[move[1]][move[0]] = 0
-			#alph beta pruning 
-			if value >= beta:
-				break
-			alpha = max(alpha, value)	
-		#return value, best_move
-		return value, best_move	
+	value = float("-inf")
+	best_move = None
+	
+	for move in game_status.get_moves():
+		#stimulate move
+		game_status.board_state[move[1]][move[0]] = turn_multiplier
+		#recursive call 
+		v2, a2 = negamax(game_status, depth -1, -turn_multiplier, -beta, -alpha)
+		#flip returned value
+		v2 = -v2
+		if v2 > value:
+			value = v2 
+			best_move = move
+		#undo simulated move
+		game_status.board_state[move[1]][move[0]] = 0
+		#alph beta pruning 
+		if value >= beta:
+			break
+		alpha = max(alpha, value)	
+	#return value, best_move
+	return value, best_move	
 			
 			
 			

@@ -64,23 +64,23 @@ class GameStatus:
 		for x in self.board_state:
 			# Starting off with checking if a row has 3 of the same symbol
 			if sum(x) == 3:
-				score = 1
+				score += 1
 			elif sum(x) == -3:
-				score = -1
+				score -= 1
 
 			# Now checking each col
 			if self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == 3:
-				score = 1
+				score += 1
 			elif self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == -3:
-				score = -1
+				score -= 1
 
 			col_index += 1
 		
 		# Checking for a diagnal win
 		if self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == 3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == 3: 
-			score = 1
+			score += 1
 		elif self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == -3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == -3: 
-			score = -1
+			score -= 1
 
 		return score
 		
@@ -95,8 +95,33 @@ class GameStatus:
         """
 		rows = len(self.board_state)
 		cols = len(self.board_state[0])
-		scores = 0
+		score = 0
 		check_point = 3 if terminal else 2
+		
+		# return the line closest to creating
+		col_index = 0
+		for x in self.board_state:
+			# Starting off with checking if a row has 3 of the same symbol
+			if sum(x) == 3:
+				score += 1
+			elif sum(x) == -3:
+				score -= 1
+
+			# Now checking each col
+			if self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == 3:
+				score += 1
+			elif self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == -3:
+				score -= 1
+
+			col_index += 1
+		
+		# Checking for a diagnal win
+		if self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == 3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == 3: 
+			score += 1
+		elif self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == -3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == -3: 
+			score -= 1
+
+		return score
 	    
 
 	def get_moves(self):

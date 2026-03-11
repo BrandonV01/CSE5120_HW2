@@ -135,20 +135,8 @@ class RandomBoardTicTacToe:
 		THE RETURN VALUES FROM YOUR MINIMAX/NEGAMAX ALGORITHM SHOULD BE THE SCORE, MOVE WHERE SCORE IS AN INTEGER
 		NUMBER AND MOVE IS AN X,Y LOCATION RETURNED BY THE AGENT
 		"""
-		# value = float('-inf')
-		# for move in self.game_state.get_moves():
-		# 	# Simulate Move
-		# 	self.game_state.board_state[move[1]][move[0]] = 1
 
-		# 	v2, a2 = minimax(self.game_state, 10, False)
-		# 	if v2 > value:
-		# 		value = v2
-		# 		best_move = move
-
-		# 	# Undo simulated move
-		# 	self.game_state.board_state[move[1]][move[0]] = 0
-
-		value, best_move = minimax(self.game_state, 10, True)
+		value, best_move = minimax(self.game_state, 10, 1)
 
 		self.draw_circle(best_move[0], best_move[1])
 		self.move(best_move)
@@ -249,9 +237,6 @@ class RandomBoardTicTacToe:
 										done = self.is_game_over_standard()
 									else:
 										done = self.is_game_over_big_board()
-
-					for x in self.game_state.board_state:
-						print(x)
 
 					# Check if the game is human vs human or human vs AI player from the GUI. 
 					# If it is human vs human then your opponent should have the value of the selected cell set to -1
