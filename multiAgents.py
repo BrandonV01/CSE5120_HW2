@@ -89,6 +89,7 @@ def negamax(game_status: GameStatus, depth: int, turn_multiplier: int, alpha=flo
 			if value >= beta:
 				break
 			alpha = max(alpha, value)	
+		#return value, best_move
 		return value, best_move	
 			
 			
@@ -106,4 +107,3 @@ def negamax(game_status: GameStatus, depth: int, turn_multiplier: int, alpha=flo
 	THE LINE TO RETURN THESE TWO IS COMMENTED BELOW WHICH YOU CAN USE
 	
 	"""
-	#return value, best_move
