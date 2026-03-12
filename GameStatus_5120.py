@@ -143,5 +143,5 @@ class GameStatus:
 	def get_new_state(self, move):
 		new_board_state = self.board_state.copy()
 		x, y = move[0], move[1]
-		new_board_state[y][x] = 1 if self.turn_O else -1
+		new_board_state[y][x] = -1 if self.turn_O else 1
 		return GameStatus(new_board_state, not self.turn_O)
