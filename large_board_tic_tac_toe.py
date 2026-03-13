@@ -405,8 +405,12 @@ class RandomBoardTicTacToe:
 		self.change_turn()
 		pygame.display.update()
 
+		if self.GRID_SIZE == 3:
+			terminal = self.game_state.is_terminal()
+		else:
+			terminal = self.game_state.is_terminal_big_board()
+
 		""" USE self.game_state.get_scores(terminal) HERE TO COMPUTE AND DISPLAY THE FINAL SCORES """
-		terminal = self.game_state.is_terminal()
 		score = self.game_state.get_scores(terminal)
 		return score
 
@@ -418,13 +422,13 @@ class RandomBoardTicTacToe:
 		"""
 		self.status_msg = ""
 		self.game_over = False
-		self._recalc_dims()
-		self.draw_game()
 
 		# Fill game_state with board state filled with 0
 		board = [[0 for _ in range(self.GRID_SIZE)] for _ in range(self.GRID_SIZE)]
 		self.game_state = GameStatus(board, False)
 
+		self._recalc_dims()
+		self.draw_game()
 		pygame.display.update()
 
 
@@ -447,6 +451,14 @@ class RandomBoardTicTacToe:
 				self.draw_game()
 				return True
 
+		#mode buttons
+		global mode
+		for m, r in self._mode_rects.items():
+			if r.collidepoint(pos):
+				mode = m
+				self.game_reset()
+				return True
+
 		# Reset button
 		if self._reset_rect.collidepoint(pos):
 			self.game_reset()
@@ -461,6 +473,7 @@ class RandomBoardTicTacToe:
 		clock = pygame.time.Clock()
 
 		while not done:
+			mode = globals()["mode"]
 			for event in pygame.event.get():  # User did something
 				"""
 				YOUR CODE HERE TO CHECK IF THE USER CLICKED ON A GRID ITEM. EXIT THE GAME IF THE USER CLICKED EXIT
