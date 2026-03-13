@@ -41,8 +41,21 @@ class GameStatus:
 		YOUR CODE HERE TO CHECK IF ANY CELL IS EMPTY WITH THE VALUE 0. IF THERE IS NO EMPTY
 		THEN YOU SHOULD ALSO RETURN THE WINNER OF THE GAME BY CHECKING THE SCORES FOR EACH PLAYER 
       """
-		
-		return (not any(0 in row for row in self.board_state))
+		#check if the current state of the board is terminal
+		if not any(0 in row for row in self.board_state):
+			#calculate score
+			score = self.get_scores(True)
+			#determine winner
+			if score > 0 :
+				self.winner = "Human"
+			elif score < 0 :
+				self.winner = "Computer Player"
+			else: 
+				self.winner = "Draw"
+			#return terminal state	
+			return True 
+			
+		return False	
 		
 
 	def get_scores(self, terminal):
@@ -76,7 +89,7 @@ class GameStatus:
 
 			col_index += 1
 		
-		# Checking for a diagnal win
+		# Checking for a diagonal win
 		if self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == 3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == 3: 
 			score += 1
 		elif self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == -3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == -3: 
@@ -115,7 +128,7 @@ class GameStatus:
 
 			col_index += 1
 		
-		# Checking for a diagnal win
+		# Checking for a diagonal win
 		if self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == 3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == 3: 
 			score += 1
 		elif self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == -3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == -3: 
