@@ -11,40 +11,19 @@ class GameStatus:
 		self.oldScores = 0
 
 		self.winner = ""
-
-
-	def is_terminal(self):
-		"""
-		terminal check for standard 3x3 tic tac toe
-      """
-		col_index = 0
-		for x in self.board_state:
-			# Starting off with checking if a row has 3 of the same symbol
-			if abs(sum(x)) == 3:
-				return True
-
-			# Now checking each col
-			if abs(self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index]) == 3:
-				return True
-
-			col_index += 1
-		
-		# Checking for a diagnal win
-		if abs(self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2]) == 3 or abs(self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0]) == 3: 
-			return True
-		
-		# Checking for tie case
-		return (not any(0 in row for row in self.board_state))
 	
-	def is_terminal_big_board(self):
+	def is_terminal(self):
 		"""
 		YOUR CODE HERE TO CHECK IF ANY CELL IS EMPTY WITH THE VALUE 0. IF THERE IS NO EMPTY
 		THEN YOU SHOULD ALSO RETURN THE WINNER OF THE GAME BY CHECKING THE SCORES FOR EACH PLAYER 
       """
+		# Grab a len of board for future check
+		grid_size = len(self.board_state)
+		
+		#calculate score
+		score = self.get_scores(True)
 		#check if the current state of the board is terminal
-		if not any(0 in row for row in self.board_state):
-			#calculate score
-			score = self.get_scores(True)
+		if (grid_size == 3 and score != 0) or (not any(0 in row for row in self.board_state)):
 			
 			#determine winner
 			if score > 0 :

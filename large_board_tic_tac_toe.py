@@ -356,7 +356,7 @@ class RandomBoardTicTacToe:
 			(self.OFFSET + self.WIDTH * x + self.WIDTH / 4,        top + self.OFFSET + self.HEIGHT * y + (self.HEIGHT * 3 / 4)), self.MARGIN)
 
 
-	def is_game_over_standard(self):
+	def is_game_over(self):
 		"""
 		YOUR CODE HERE TO SEE IF THE GAME HAS TERMINATED AFTER MAKING A MOVE. YOU SHOULD USE THE IS_TERMINAL()
 		FUNCTION FROM GAMESTATUS_5120.PY FILE (YOU WILL FIRST NEED TO COMPLETE IS_TERMINAL() FUNCTION)
@@ -364,11 +364,6 @@ class RandomBoardTicTacToe:
 		YOUR RETURN VALUE SHOULD BE TRUE OR FALSE TO BE USED IN OTHER PARTS OF THE GAME
 		"""
 		return self.game_state.is_terminal()
-
-
-	def is_game_over_big_board(self):
-		# Second game over function for when board isn't 3x3 hence uses different ruling
-		return self.game_state.is_terminal_big_board()
 
 
 	def move(self, move):
@@ -387,9 +382,9 @@ class RandomBoardTicTacToe:
 
 		# Call Minimax or Negamax depending on which algorithm is selected
 		if self.use_negamax:
-			value, best_move = negamax(self.game_state, 4, -1)
+			value, best_move = negamax(self.game_state, 6, -1)
 		else:
-			value, best_move = minimax(self.game_state, 4, False)  # False = minimising (AI) turn
+			value, best_move = minimax(self.game_state, 6, False)  # False = minimising (AI) turn
 
 		if best_move is None:
 			return
@@ -405,10 +400,8 @@ class RandomBoardTicTacToe:
 		self.change_turn()
 		pygame.display.update()
 
-		if self.GRID_SIZE == 3:
-			terminal = self.game_state.is_terminal()
-		else:
-			terminal = self.game_state.is_terminal_big_board()
+		
+		terminal = self.game_state.is_terminal()
 
 		""" USE self.game_state.get_scores(terminal) HERE TO COMPUTE AND DISPLAY THE FINAL SCORES """
 		score = self.game_state.get_scores(terminal)
@@ -524,10 +517,7 @@ class RandomBoardTicTacToe:
 
 								self.move(coordinates)
 
-								if self.GRID_SIZE == 3:
-									self.game_over = self.is_game_over_standard()
-								else:
-									self.game_over = self.is_game_over_big_board()
+								self.game_over = self.is_game_over()
 
 								self.change_turn()
 
@@ -541,21 +531,15 @@ class RandomBoardTicTacToe:
 								self.move(coordinates)
 								self.change_turn()
 
-								if self.GRID_SIZE == 3:
-									self.game_over = self.is_game_over_standard()
-								else:
-									self.game_over = self.is_game_over_big_board()
+								self.game_over = self.is_game_over()
 
 								pygame.display.update()
 
 								if not self.game_over:
 									self.play_ai()
 
-									if self.GRID_SIZE == 3:
-										self.game_over = self.is_game_over_standard()
-									else:
-										self.game_over = self.is_game_over_big_board()
-
+									self.game_over = self.is_game_over()
+									
 						# Show score and winner when game ends
 						if self.game_over:
 							terminal = True
