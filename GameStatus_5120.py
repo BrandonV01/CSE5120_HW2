@@ -45,6 +45,7 @@ class GameStatus:
 		if not any(0 in row for row in self.board_state):
 			#calculate score
 			score = self.get_scores(True)
+			
 			#determine winner
 			if score > 0 :
 				self.winner = "Human"
@@ -52,6 +53,7 @@ class GameStatus:
 				self.winner = "Computer Player"
 			else: 
 				self.winner = "Draw"
+				
 			#return terminal state	
 			return True 
 			
@@ -66,38 +68,49 @@ class GameStatus:
         YOU SHOULD THEN RETURN THE CALCULATED SCORE WHICH CAN BE POSITIVE (HUMAN PLAYER WINS),
         NEGATIVE (AI PLAYER WINS), OR 0 (DRAW)
         
-        """        
+        """  
+		#find board size
 		rows = len(self.board_state)
 		cols = len(self.board_state[0])
 		score = 0
-		check_point = 3 if terminal else 2
-		
-		# return the line closest to creating
-		col_index = 0
-		for x in self.board_state:
-			# Starting off with checking if a row has 3 of the same symbol
-			if sum(x) == 3:
-				score += 1
-			elif sum(x) == -3:
-				score -= 1
 
-			# Now checking each col
-			if self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == 3:
-				score += 1
-			elif self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == -3:
-				score -= 1
+		#check for horizontal triplets
+		for row in range(rows):
+			for col in range(cols - 2):
+				total = self.board_state[row][col] + self.board_state[row][col + 1] + self.board_state[row][col + 2]
+				if total == 3:
+					score += 1
+				elif total == -3:
+					score -= 1
 
-			col_index += 1
-		
-		# Checking for a diagonal win
-		if self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == 3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == 3: 
-			score += 1
-		elif self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == -3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == -3: 
-			score -= 1
+		#check for vertical triplets
+		for row in range(rows - 2):
+			for col in range(cols):
+				total = self.board_state[row][col] + self.board_state[row + 1][col] + self.board_state[row + 2][col]
+				if total == 3:
+					score += 1
+				elif total == -3:
+					score -= 1
 
+		#check for diagonal down right triplets
+		for row in range(rows - 2):
+			for col in range(cols - 2):
+				total = self.board_state[row][col] + self.board_state[row + 1][col + 1] + self.board_state[row + 2][col + 2]
+				if total == 3:
+					score += 1
+				elif total == -3:
+					score -= 1
+
+		#check for diagonal down left triplets
+		for row in range(rows - 2):
+			for col in range(2, cols):
+				total = self.board_state[row][col] + self.board_state[row + 1][col - 1] + self.board_state[row + 2][col - 2]
+				if total == 3:
+					score += 1
+				elif total == -3:
+					score -= 1
+				
 		return score
-		
-	    
 
 	def get_negamax_scores(self, terminal):
 		"""
@@ -106,35 +119,7 @@ class GameStatus:
                                                                                FOR HUMAN PLAYER INSTEAD OF 
                                                                                SCORES = SCORES + 1)
         """
-		rows = len(self.board_state)
-		cols = len(self.board_state[0])
-		score = 0
-		check_point = 3 if terminal else 2
-		
-		# return the line closest to creating
-		col_index = 0
-		for x in self.board_state:
-			# Starting off with checking if a row has 3 of the same symbol
-			if sum(x) == 3:
-				score += 1
-			elif sum(x) == -3:
-				score -= 1
-
-			# Now checking each col
-			if self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == 3:
-				score += 1
-			elif self.board_state[0][col_index] + self.board_state[1][col_index] + self.board_state[2][col_index] == -3:
-				score -= 1
-
-			col_index += 1
-		
-		# Checking for a diagonal win
-		if self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == 3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == 3: 
-			score += 1
-		elif self.board_state[0][0] + self.board_state[1][1] + self.board_state[2][2] == -3 or self.board_state[0][2] + self.board_state[1][1] + self.board_state[2][0] == -3: 
-			score -= 1
-
-		return score
+		return self.get_scores(terminal)
 	    
 
 	def get_moves(self):
